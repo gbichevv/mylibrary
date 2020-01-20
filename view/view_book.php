@@ -46,7 +46,7 @@ require_once 'header/header.php';
             <textarea class="form-control mb-3 mt-3" name="text"></textarea>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Add comment</button>
         </form>
-<!--        <form action="<?php //$books->delete_book($book_id)    ?>" method="POST" class="col-lg-2 ">
+<!--        <form action="<?php $books->delete_book($book_id) ?>" method="POST" class="col-lg-2 ">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Delete Book</button>
         </form>-->
 <?php require_once 'footer/footer.php';
