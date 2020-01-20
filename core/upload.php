@@ -12,7 +12,7 @@ class upload{
         $this -> tmp = $_FILES["file"]["tmp_name"];
         $this -> uploadfile = $this -> src . basename($this -> filename);
     }
-    public function uploadfile(){
+    public function uploadfile($file){
         if(move_uploaded_file($this -> tmp, $this -> uploadfile)){
             return true;
         }

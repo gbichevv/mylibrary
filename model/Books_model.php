@@ -13,10 +13,10 @@ trait Boods_model {
      * @param $isbn, $name, $year
      */
 
-    private function create_book($isbn, $name, $year, $description) {
-        $sql = "INSERT INTO books(isbn, name, year) VALUES(:isbn, :name, :year, :description)";
+    private function _create_book($isbn, $name, $year, $description, $file) {
+        $sql = "INSERT INTO books(isbn, name, year, description, images) VALUES(:isbn, :name, :year, :description, :images)";
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(array('isbn' => $isbn, 'name' => $name, 'year' => $year, 'description' => $description));
+        $stmt->execute(array('isbn' => $isbn, 'name' => $name, 'year' => $year, 'description' => $description, 'images' => $file));
     }
 
     /*
@@ -24,7 +24,7 @@ trait Boods_model {
      * @auth Georgi Bichev <gbichevv@gmail.com>      
      */
 
-    private function get_all_books() {
+    private function _get_all_books() {
         $sql = "SELECT * FROM books";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
@@ -36,7 +36,7 @@ trait Boods_model {
      * @param $id     
      */
 
-    private function get_select_book($id) {
+    private function _get_select_book($id) {
         $sql = "SELECT * FROM books WHERE id=$id";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
@@ -47,7 +47,7 @@ trait Boods_model {
      * @param $id     
      */
 
-    private function delete_select_book($id) {
+    private function _delete_select_book($id) {
         $sql = "DELETE FROM books WHERE id=$id";
         $stmt = $this->db->query($sql);
         return $stmt;
@@ -58,7 +58,7 @@ trait Boods_model {
      * @param $book_id, $text
      */
 
-    private function create_comment($book_id, $text) {
+    private function _create_comment($book_id, $text) {
         $sql = "INSERT INTO comments(book_id, text) VALUES(:book_id, :text)";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(array('book_id' => $book_id, 'text' => $text));
@@ -69,7 +69,7 @@ trait Boods_model {
      * @param $book_id
      */
 
-    private function show_all_comments($book_id) {
+    private function _show_all_comments($book_id) {
         $sql = "SELECT * FROM comments WHERE book_id=$book_id";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
@@ -80,7 +80,7 @@ trait Boods_model {
      * @param $book_id, $user_id
      */
 
-    private function add_favorites_book($book_id, $user_id) {
+    private function _add_favorites_book($book_id, $user_id) {
         $sql = "SELECT c.twat_id, c.comment_text, c.comment_date, u.user_pic, u.user_name FROM user_books AS us_b JOIN users AS user ON user.id = us_b.user_id WHERE c.twat_id = ?";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();
@@ -91,7 +91,7 @@ trait Boods_model {
      * @param $book_id, $user_id
      */
 
-    private function show_favorites_book($user_id) {
+    private function _show_favorites_book($user_id) {
         $sql = "SELECT * FROM user_books LEFT JOIN books ON  WHERE user_id=$user_id";
         $stmt = $this->db->query($sql);
         return $stmt->fetchAll();

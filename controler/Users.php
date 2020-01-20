@@ -121,6 +121,14 @@ class Users {
         return header('Location: home.php');
     }
     /*
+     * Show user data
+     * @auth Georgi Bichev <gbichevv@gmail.com> 
+     * @param $formvars
+     */
+    public function show_user($username) {
+        $this->_get_user($username);
+    }
+    /*
      * Handle errors
      * @auth Georgi Bichev <gbichevv@gmail.com> 
      * @param $formvars

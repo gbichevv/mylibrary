@@ -23,11 +23,53 @@ class Books {
     /*
      * Send data to Boook_model/create_book
      * @auth Georgi Bichev <gbichevv@gmail.com> 
-     * @param $isbn, $name, $year
+     * @param $isbn, $name, $year, $description, $file
      */
 
-    public function add_book($isbn, $name, $year, $description) {
-        $this->create_book($isbn, $name, $year, $description);
+    public function add_book($isbn, $name, $year, $description, $file) {
+        $this->_create_book($isbn, $name, $year, $description, $file['name']);
+
+        $target_dir = "../assets/images/";
+        $target_file = $target_dir . basename($_FILES["image"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+// Check if image file is a actual image or fake image
+        if (isset($_POST["submit"])) {
+            $check = getimagesize($_FILES["image"]["tmp_name"]);
+            if ($check !== false) {
+                echo "File is an image - " . $check["mime"] . ".";
+                $uploadOk = 1;
+            } else {
+                echo "File is not an image.";
+                $uploadOk = 0;
+            }
+        }
+// Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+// Check file size
+        if ($_FILES["image"]["size"] > 500000) {
+            echo "Sorry, your file is too large.";
+            $uploadOk = 0;
+        }
+// Allow certain file formats
+        if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+            echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+            $uploadOk = 0;
+        }
+// Check if $uploadOk is set to 0 by an error
+        if ($uploadOk == 0) {
+            echo "Sorry, your file was not uploaded.";
+// if everything is ok, try to upload file
+        } else {
+            if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                echo "The file " . basename($_FILES["image"]["name"]) . " has been uploaded.";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
     }
 
     /*
@@ -37,7 +79,7 @@ class Books {
      */
 
     public function list_books() {
-        return $this->get_all_books();
+        return $this->_get_all_books();
     }
 
     /*
@@ -47,7 +89,7 @@ class Books {
      */
 
     public function get_book($id) {
-        return $this->get_select_book($id);
+        return $this->_get_select_book($id);
     }
 
     /*
@@ -68,7 +110,7 @@ class Books {
      */
 
     public function add_comment($book_id, $text) {
-        return $this->create_comment($book_id, $text);
+        return $this->_create_comment($book_id, $text);
     }
 
     /* show comment in db
@@ -77,8 +119,9 @@ class Books {
      */
 
     public function show_comments($book_id) {
-        return $this->show_all_comments($book_id);
+        return $this->_show_all_comments($book_id);
     }
+
     /* add favorites books in db
      * @auth Georgi Bichev <gbichevv@gmail.com> 
      * @param $book_id, $user_id
@@ -93,15 +136,16 @@ class Books {
      */
 
     public function show_favorites($user_id) {
-        return $this->show_favorites_book($book_id, $user_id);
+        return $this->_show_favorites_book($book_id, $user_id);
     }
+
     /* Edit book from db
      * @auth Georgi Bichev <gbichevv@gmail.com> 
      * @param $book_id, $isbn, $name, $year
      */
 
     public function edit_book_data($book_id, $isbn, $name, $year, $description) {
-        return $this->edit_book($book_id, $isbn, $name, $year, $description);
+        return $this->_edit_book($book_id, $isbn, $name, $year, $description);
     }
 
 }

@@ -1,42 +1,15 @@
 <?php
-session_start();
 
 require '../core/init.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    if ($users->check_post_data($_POST)) {
-
-        if ($users->is_valid_form($_POST)) {
-
-            if ($users->show_email_exist($_POST['email'])) {
-                // call insert method
-                $users->registration_user($_POST);
-            }
-        }
-    }
+var_dump($_SESSION);
+if ($_SESSION) {
+    $users->show_user($_SESSION);
 }
-?>
-
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>My Libraby</title>
-        <!--style-->
-        <link rel="stylesheet" href="../assets/css/bootstrap-reboot.min.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap-grid.min.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../assets/css/styles.css">
-        <!--script-->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/bootstrap.min.js"></script>
-        <script src="../assets/js/my-js.js"></script>
-    </head>
+require_once 'header/header.php'; ?>
     <body class="text-center">
         <form class="form-signin col-lg-4 offset-lg-4" method="post" action="register.php">
-            <h1 class="h3 mb-3 font-weight-normal">Register form</h1>
+            <h1 class="h3 mb-3 font-weight-normal">Edit user</h1>
             <label for="FirstName" class="sr-only mb-3">First Name</label>
             <input type="text" id="firstname" class="form-control mb-3" placeholder="First Name" name="firstname" required autofocus>
             <label for="LastName" class="sr-only mb-3">Last Name</label>
@@ -50,8 +23,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <label for="Password" class="sr-only mb-3">Confirm Password</label>
             <input type="password" id="password" class="form-control  mb-3" placeholder="Confirm Password" name="password" required>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
         </form>
-    </body>
-
-</html>
+  <?php require_once 'footer/footer.php';

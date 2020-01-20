@@ -5,23 +5,7 @@ if (isset($_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['descriptio
 
     $books->edit_book_data($book_id, $_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['description']);
 }
-?>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>My Libraby</title>
-        <!--style-->
-        <link rel="stylesheet" href="../assets/css/bootstrap-reboot.min.css">
-        <link rel="stylesheet" href="../../assets/css/bootstrap-grid.min.css">
-        <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../assets/css/styles.css">
-        <!--script-->
-        <script src="../assets/js/bootstrap.bundle.min.js"></script>
-        <script src="../assets/js/bootstrap.min.js"></script>
-        <script src="../assets/js/my-js.js"></script>
-    </head>
+require_once 'header/header.php';?> 
     <body class="text-center">
         <?php foreach ($books->get_book($book_id) as $book): ?>
             <form class="form-signin col-lg-4 offset-lg-4" method="POST">
@@ -38,6 +22,4 @@ if (isset($_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['descriptio
                 <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
             </form>
         <?php endforeach; ?>
-    </body>
-
-</html>
+  <?php require_once 'footer/footer.php';
