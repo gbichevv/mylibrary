@@ -1,5 +1,5 @@
 <?php
-include '../core/books_router.php';
+include_once '../core/autoload.php';
 //$books->show_favorites($user_id);
 require_once 'header/header.php'; ?>
         <header>

@@ -1,7 +1,7 @@
 <?php
 
-require '../core/init.php';
-
+include_once '../core/autoload.php';
+$users = new controler\Users;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_SESSION['email'])) {
         $users->show_login_user($_POST);

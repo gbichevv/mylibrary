@@ -1,7 +1,8 @@
 <?php
-include '../core/books_router.php';
-include '../core/upload.php';
+include_once '../core/autoload.php';
+
 if (isset($_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['description'])) {
+    $books = new \controler\Books;
     $books->add_book($_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['description'], $_FILES['image']);
 }
 require_once 'header/header.php';?>

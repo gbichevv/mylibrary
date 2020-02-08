@@ -5,20 +5,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+namespace controler;
+include_once '../core/autoload.php';
 
-include '../model/User_model.php';
-
-class Users {
-
-    use User_model;
-
-    private $db;
-    public $error = '';
-    public $msg = '';
-
-    public function __construct($database) {
-        $this->db = $database;
-    }
+class Users extends \model\User_model{
+    
+   
 
     /*
      * Registration user
@@ -27,7 +19,7 @@ class Users {
      */
 
     public function registration_user($formvars) {
-        $this->_generate_hash_pass($formvars);
+        $this->generate_hash_pass($formvars);
 
         if ($this->error != '') {
             return $this->handle_errors($this->error);
@@ -99,7 +91,7 @@ class Users {
      * @param $formvars
      */
     public function show_email_exist($data) {
-        $this->_check_user_email($data);
+        $this->check_user_email($data);
 
         if ($this->error != '') {
             return $this->handle_errors($this->error);
@@ -113,7 +105,7 @@ class Users {
      * @param $formvars
      */
     public function show_login_user($formvars) {
-        $this->_get_user_entires($formvars);
+        $this->get_user_entires($formvars);
 
         if ($this->error != '') {
             return $this->handle_errors($this->error);
@@ -126,25 +118,8 @@ class Users {
      * @param $formvars
      */
     public function show_user($username) {
-        $this->_get_user($username);
+        $this->get_user($username);
     }
-    /*
-     * Handle errors
-     * @auth Georgi Bichev <gbichevv@gmail.com> 
-     * @param $formvars
-     */
-    public function handle_errors($error) {
-        echo $this->error;
-        return false;
-    }
-    /*
-     * Message_success
-     * @auth Georgi Bichev <gbichevv@gmail.com> 
-     * @param $formvars
-     */
-    public function message_success($msg) {
-        echo $msg;
-        return true;
-    }
+  
 
 }

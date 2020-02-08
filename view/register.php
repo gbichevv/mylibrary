@@ -1,7 +1,7 @@
 <?php
 
-require '../core/init.php';
-
+include_once '../core/autoload.php';
+$users = new controler\Users;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($users->check_post_data($_POST)) {

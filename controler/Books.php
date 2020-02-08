@@ -5,21 +5,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+namespace controler;
+include_once '../core/autoload.php';
 
-include '../model/Books_model.php';
-
-class Books {
-
-    use Boods_model;
-
-    private $db;
-    public $error = '';
-    public $msg = '';
-
-    public function __construct($database) {
-        $this->db = $database;
-    }
-
+class Books extends \model\Books_model {
+    
     /*
      * Send data to Boook_model/create_book
      * @auth Georgi Bichev <gbichevv@gmail.com> 
@@ -27,7 +17,7 @@ class Books {
      */
 
     public function add_book($isbn, $name, $year, $description, $file) {
-        $this->_create_book($isbn, $name, $year, $description, $file['name']);
+        
 
         $target_dir = "../assets/images/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -58,6 +48,10 @@ class Books {
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
+        }else{
+//add in db if file is JPG, JPEG, PNG & GIF
+            $crypt = base64_encode($file['name']);
+            $this->create_book($isbn, $name, $year, $description, $crypt);
         }
 // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
@@ -79,7 +73,7 @@ class Books {
      */
 
     public function list_books() {
-        return $this->_get_all_books();
+        return $this->get_all_books();
     }
 
     /*

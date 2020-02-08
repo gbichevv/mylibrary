@@ -1,5 +1,6 @@
 <?php
-include '../core/books_router.php';
+include_once '../core/autoload.php';
+$books = new \controler\Books;
 //$books->add_favorites($book_id, $user_id);
 require_once 'header/header.php'; ?>
     <body class="text-left">

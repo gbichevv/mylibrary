@@ -1,8 +1,7 @@
 <?php
 
-require '../core/init.php';
+include_once '../core/autoload.php';
 
-var_dump($_SESSION);
 if ($_SESSION) {
     $users->show_user($_SESSION);
 }
