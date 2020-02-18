@@ -1,5 +1,6 @@
 <?php
 include_once '../core/autoload.php';
+$books = new \controler\Books;
 $book_id = $_GET["book_id"];
 $book_comments = $books->show_comments($book_id);
 require_once 'header/header.php';

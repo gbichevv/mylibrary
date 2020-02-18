@@ -1,11 +1,16 @@
 <?php
 
 namespace model;
+
 include_once '../core/autoload.php';
 
 class User_model extends \core\Database {
-    
-    use \helper\Helper_functions;
+
+    use \helper\Helper_functions, \helper\Validation {
+        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
+        \helper\Helper_functions::message_success  insteadof \helper\Validation;
+    }
 
     public function __construct() {
         parent::__construct();
@@ -46,12 +51,14 @@ class User_model extends \core\Database {
      */
 
     protected function get_user_entires($data = array()) {
-        $sql = "SELECT * FROM `users` where `email` = ? AND `password` = ?";
+        $sql = "SELECT * FROM users where email = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(1, $data['email'], \PDO::PARAM_STR);
-        $stmt->bindParam(2, $data['password'], \PDO::PARAM_STR);
+//        $stmt->bindParam(2, $data['password'], \PDO::PARAM_STR);
         $stmt->execute();
-        $row = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+
+        $row = $stmt->fetch();
         if ($row['password'] == crypt($data['password'], $row['salt']) && $row['email'] == $data['email']) {
             $_SESSION['user'] = $row['username'];
         }

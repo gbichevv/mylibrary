@@ -27,30 +27,7 @@ class Users extends \model\User_model{
         return $this->message_success($this->msg);
     }
 
-    /*
-     * This method check user post data / validation
-     * @auth Georgi Bichev <gbichevv@gmail.com> 
-     * @param $formvars
-     */
-    public function check_post_data(&$formvars) {
-
-        $required = array('username', 'password', 'email');
-
-        foreach ($required as $field) {
-            if (empty($formvars[$field])) {
-                $this->error = 'Всички полета са задължителни.';
-            }
-        }
-
-        $formvars['username'] = trim($formvars['username']);
-        $formvars['password'] = trim($formvars['password']);
-        $formvars['email'] = trim($formvars['email']);
-
-        if ($this->error != '') {
-            return $this->handle_errors($this->error);
-        }
-        return true;
-    }
+  
 
     /*
      * Check is valid form
@@ -60,29 +37,17 @@ class Users extends \model\User_model{
 
     public function is_valid_form($formvars) {
 
+        
+     
+        $this->validation_email($formvars['email']);
+        $this->validation_password($formvars['password']);
+        $this->validation_username($formvars['username']);
 
-        $username = $formvars['username'];
-
-        $password = $formvars['password'];
-
-        $email = filter_var($formvars['email'], FILTER_SANITIZE_EMAIL);
-
-        if (strlen($username) < 4) {
-            $this->error .= 'Your name should be at least 4 chars long' . '<br />';
-        }
-
-        if (strlen($password) < 6) {
-            $this->error .= 'Your password should be at least 6 chars long' . '<br />';
-        }
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->error .= 'Please enter a valid email' . '<br />';
-        }
 
         if ($this->error != '') {
             return $this->handle_errors($this->error);
         }
-        return true;
+        return TRUE;
     }
     
     /*
@@ -96,7 +61,7 @@ class Users extends \model\User_model{
         if ($this->error != '') {
             return $this->handle_errors($this->error);
         }
-        return true;
+        return TRUE;
     }
 
     /*

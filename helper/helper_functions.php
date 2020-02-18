@@ -7,7 +7,7 @@
  */
 namespace helper;
 trait Helper_functions {
-
+    
     private $key = 'TwYBrxJa31';
     private $cipher = "aes128";  
     public $error = '';
@@ -31,7 +31,7 @@ trait Helper_functions {
      */
     public function handle_errors($error) {
         echo $this->error;
-        return false;
+        return FALSE;
     }
 
     /**
@@ -41,7 +41,9 @@ trait Helper_functions {
      */
     public function message_success($msg) {
         echo $msg;
-        return true;
+        return TRUE;
     }
+    
+  
 
 }

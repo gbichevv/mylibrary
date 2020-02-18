@@ -1,5 +1,6 @@
 <?php
-include '../core/books_router.php';
+include_once '../core/autoload.php';
+$books = new \controler\Books;
 $book_id = $_GET["book_id"];
 if (isset($_POST['isbn'], $_POST['bookname'], $_POST['year'], $_POST['description'])) {
 

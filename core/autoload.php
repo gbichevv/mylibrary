@@ -10,22 +10,21 @@
  * Session start
  * @author gbichev <gbichevv@gmail.com>
  */
+//ini_set('mbstring.internal_encoding','UTF-8');
+
 session_start([
     'cookie_lifetime' => 86400,
 ]);
+
 
 /**
  * Autoload function
  * @author gbichev <gbichevv@gmail.com>
  * @param $class namespace param 
  */
-spl_autoload_register(function ($class) {
-    $arr[] = $class;
-    if (strpos($class, 'core')) {
-        $full_path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-        require_once __DIR__ . DIRECTORY_SEPARATOR . $full_path;
-    }
+function __autoload($class) {
+  
     $full_path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
     require_once __DIR__ . DIRECTORY_SEPARATOR . "../" . $full_path;
-})
+}
 ?>

@@ -7,25 +7,33 @@
  */
 
 namespace model;
+
 include_once '../core/autoload.php';
 
 class Books_model extends \core\Database {
 
-    use \helper\Helper_functions;
-    
-    public function __construct(){
+    use \helper\Helper_functions,
+        \helper\Validation {
+        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
+        \helper\Helper_functions::message_success insteadof \helper\Validation;
+    }
+
+    public function __construct() {
         parent::__construct();
     }
+
     /*
      * Create book to database
      * @auth Georgi Bichev <gbichevv@gmail.com> 
-     * @param $isbn, $name, $year
+     * @param $book_data
      */
 
-    protected function create_book($isbn, $name, $year, $description, $file) {
-        $sql = "INSERT INTO books(isbn, name, year, description, images) VALUES(:isbn, :name, :year, :description, :images)";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute(array('isbn' => $isbn, 'name' => $name, 'year' => $year, 'description' => $description, 'images' => $file));
+    protected function create_book($book_data) {
+            $sql = "INSERT INTO books(isbn, name, year, description, images) VALUES(:isbn, :name, :year, :description, :images)";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute($book_data);
+
     }
 
     /*
@@ -125,4 +133,3 @@ class Books_model extends \core\Database {
     }
 
 }
-

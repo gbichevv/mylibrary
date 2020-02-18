@@ -5,19 +5,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace controler;
+
 include_once '../core/autoload.php';
 
 class Books extends \model\Books_model {
-    
     /*
      * Send data to Boook_model/create_book
      * @auth Georgi Bichev <gbichevv@gmail.com> 
      * @param $isbn, $name, $year, $description, $file
      */
 
-    public function add_book($isbn, $name, $year, $description, $file) {
-        
+    public function add_book() {
+
+        $this->validation_numeric($_POST['isbn']);
+        $this->validation_string($_POST['bookname']);
+        $this->validation_numeric($_POST['year']);
+        $this->validation_string($_POST['description']);
+        if ($this->error != '') {
+            return $this->handle_errors($this->error);
+        }
+        $book_data = array(
+            'isbn' => $_POST['isbn'],
+            'name' => $_POST['bookname'],
+            'year' => $_POST['year'],
+            'description' => $_POST['description'],
+            'images' => base64_encode($_FILES["image"]['name'])
+        );
 
         $target_dir = "../assets/images/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -48,10 +63,9 @@ class Books extends \model\Books_model {
         if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
             echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
             $uploadOk = 0;
-        }else{
+        } else {
 //add in db if file is JPG, JPEG, PNG & GIF
-            $crypt = base64_encode($file['name']);
-            $this->create_book($isbn, $name, $year, $description, $crypt);
+            $this->create_book($book_data);
         }
 // Check if $uploadOk is set to 0 by an error
         if ($uploadOk == 0) {
@@ -83,7 +97,7 @@ class Books extends \model\Books_model {
      */
 
     public function get_book($id) {
-        return $this->_get_select_book($id);
+        return $this->get_select_book($id);
     }
 
     /*
@@ -104,7 +118,7 @@ class Books extends \model\Books_model {
      */
 
     public function add_comment($book_id, $text) {
-        return $this->_create_comment($book_id, $text);
+        return $this->create_comment($book_id, $text);
     }
 
     /* show comment in db
@@ -113,7 +127,7 @@ class Books extends \model\Books_model {
      */
 
     public function show_comments($book_id) {
-        return $this->_show_all_comments($book_id);
+        return $this->show_all_comments($book_id);
     }
 
     /* add favorites books in db
@@ -130,7 +144,7 @@ class Books extends \model\Books_model {
      */
 
     public function show_favorites($user_id) {
-        return $this->_show_favorites_book($book_id, $user_id);
+        return $this->show_favorites_book($book_id, $user_id);
     }
 
     /* Edit book from db
@@ -139,7 +153,7 @@ class Books extends \model\Books_model {
      */
 
     public function edit_book_data($book_id, $isbn, $name, $year, $description) {
-        return $this->_edit_book($book_id, $isbn, $name, $year, $description);
+        return $this->edit_book($book_id, $isbn, $name, $year, $description);
     }
 
 }

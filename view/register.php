@@ -4,17 +4,15 @@ include_once '../core/autoload.php';
 $users = new controler\Users;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if ($users->check_post_data($_POST)) {
-
+   
         if ($users->is_valid_form($_POST)) {
 
             if ($users->show_email_exist($_POST['email'])) {
                 // call insert method
-                $users->registration_user($_POST);
+                $users->registration_user($_POST, $_FILES);
             }
         }
     }
-}
 require_once 'header/header.php'; ?>
     <body class="text-center">
         <form class="form-signin col-lg-4 offset-lg-4" method="post" action="register.php">
