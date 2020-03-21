@@ -11,6 +11,15 @@ namespace controler;
 include_once '../core/autoload.php';
 
 class Books extends \model\Books_model {
+    
+    use \helper\Helper_functions,
+        \helper\Validation {
+        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::decrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
+        \helper\Helper_functions::message_success insteadof \helper\Validation;
+    }
+    
     /*
      * Send data to Boook_model/create_book
      * @auth Georgi Bichev <gbichevv@gmail.com> 
@@ -26,12 +35,13 @@ class Books extends \model\Books_model {
         if ($this->error != '') {
             return $this->handle_errors($this->error);
         }
+        $image_crypt = $this->encrypt_data($_FILES["image"]['name']);
         $book_data = array(
             'isbn' => $_POST['isbn'],
             'name' => $_POST['bookname'],
             'year' => $_POST['year'],
             'description' => $_POST['description'],
-            'images' => base64_encode($_FILES["image"]['name'])
+            'images' => $image_crypt
         );
 
         $target_dir = "../assets/images/";
@@ -87,6 +97,9 @@ class Books extends \model\Books_model {
      */
 
     public function list_books() {
+        $result = $this->get_all_books();
+        $this->decrypt_data($result['images']);
+        var_dump($this->decrypt_data($result['images']));
         return $this->get_all_books();
     }
 

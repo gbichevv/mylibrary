@@ -5,10 +5,7 @@ $book_id = $_GET["book_id"];
 $book_comments = $books->show_comments($book_id);
 require_once 'header/header.php';
 ?>
-    <body class="text-left">
-        <header>
-            <a href="home.php" >Home</a>
-        </header>
+
         <?php
         if (trim($book_id)):
             foreach ($books->get_book($book_id) as $book):

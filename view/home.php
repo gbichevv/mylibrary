@@ -5,35 +5,17 @@ $sessions = new \controler\Sessions;
 //$books->add_favorites($book_id, $user_id);
 require_once 'header/header.php';
 ?>
-<body class="text-left">
-    <header class="card-header">
-        <div class="text-right">
-            <div class="col-12 text-right">
-                <?php
-                if (isset($_SESSION['user'])):
-                    echo '<p>Hello ' . $_SESSION['user'] . '</p>';
-                    ?>
-                    <a href="create_book.php" class="btn btn-success" type="submit">Add Book</a>
-                    <a href="logout.php" class="btn btn-primary" type="submit">LogOut</a>
-                <?php else: ?>
-                    <a href="register.php" class="btn btn-primary" type="submit">Register</a>
-                    <a href="login.php" class="btn btn-primary" type="submit">LogIn</a>
-                <?php endif; ?>
 
-            </div>
-        </div>
-    </header>
     <div class="container">
         <div class="row mt-5">
             <?php foreach ($books->list_books() as $book): ?>
-
                 <div class="col-4 mt-3">
                     <div class="card text-center ">
                         <h1 class="h3 mb-3 font-weight-normal">View Book</h1>
                         <?php if ($book['images']): ?>
                             <div class="row">
                                 <div class="col-lg-4 offset-lg-4">
-                                    <img src="../assets/images/<?php echo $book['images']; ?>"  class="text-center img-fluid">
+                                    <img src="../assets/images/<?php echo $books->decrypt_data($book['images']); ?>"  class="text-center img-fluid">
                                 </div>
                                 <div class="col-lg-4"> </div>
                             </div>

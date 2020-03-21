@@ -10,7 +10,12 @@ include_once '../core/autoload.php';
 
 class Users extends \model\User_model{
     
-   
+   use \helper\Helper_functions, \helper\Validation {
+        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::decrypt_data insteadof \helper\Validation;
+        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
+        \helper\Helper_functions::message_success  insteadof \helper\Validation;
+    }
 
     /*
      * Registration user

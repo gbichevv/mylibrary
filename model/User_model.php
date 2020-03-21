@@ -6,12 +6,6 @@ include_once '../core/autoload.php';
 
 class User_model extends \core\Database {
 
-    use \helper\Helper_functions, \helper\Validation {
-        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
-        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
-        \helper\Helper_functions::message_success  insteadof \helper\Validation;
-    }
-
     public function __construct() {
         parent::__construct();
     }

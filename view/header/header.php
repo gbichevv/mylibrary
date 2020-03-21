@@ -17,4 +17,22 @@
         <script src="../assets/js/my-js.js"></script>
     </head>
 
+    <body class="text-left">
+        <header class="card-header">
+            <div class="text-right">
+                <div class="col-12 text-right">
+                    <a href="home.php" >Home</a>
+                    <?php
+                    if (isset($_SESSION['user'])):
+                        echo '<p>Hello ' . $_SESSION['user'] . '</p>';
+                        ?>
+                        <a href="create_book.php" class="btn btn-success" type="submit">Add Book</a>
+                        <a href="logout.php" class="btn btn-primary" type="submit">LogOut</a>
+                    <?php else: ?>
+                        <a href="register.php" class="btn btn-primary" type="submit">Register</a>
+                        <a href="login.php" class="btn btn-primary" type="submit">LogIn</a>
+                    <?php endif; ?>
 
+                </div>
+            </div>
+        </header>

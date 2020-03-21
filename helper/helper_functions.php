@@ -5,25 +5,44 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace helper;
+
 trait Helper_functions {
-    
+
     private $key = 'TwYBrxJa31';
-    private $cipher = "aes128";  
+    private $cipher = "AES-192-CBC";
+    private $encryption_iv  = "1234567891011121";
     public $error = '';
     public $msg = '';
 
+    
     /**
      * Encrypt function
-     * @author Georgi Bichev <gbichevv@gmail.com>      
+     * @author Georgi Bichev <gbichevv@gmail.com>  
+     * @param atring $data filename 
      */
     public function encrypt_data($data) {
         $key_string = $this->key;
-        $cipher = openssl_cipher_iv_length($this->cipher);
-        $iv = openssl_random_pseudo_bytes($cipher);
-        return openssl_encrypt($data, $cipher, $key_string, $iv);
+        $cipher = $this->cipher;
+        $iv = $this->encryption_iv;
+        $cipher_string = openssl_encrypt($data, $cipher, $key_string, true, $iv);
+        return $cipher_string;
     }
-
+    /**
+     * Decrypt function
+     * @author Georgi Bichev <gbichevv@gmail.com>      
+     */
+    public function decrypt_data($data) {
+        
+        $key_string = $this->key;
+        $cipher = $this->cipher;
+        $iv = $this->encryption_iv;
+        $cipher_string = openssl_decrypt($data, $cipher, $key_string, true, $iv);
+        return $cipher_string;
+    }
+    
+    
     /**
      * Handle errors
      * @auth Georgi Bichev <gbichevv@gmail.com> 
@@ -43,7 +62,5 @@ trait Helper_functions {
         echo $msg;
         return TRUE;
     }
-    
-  
 
 }

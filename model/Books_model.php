@@ -12,13 +12,6 @@ include_once '../core/autoload.php';
 
 class Books_model extends \core\Database {
 
-    use \helper\Helper_functions,
-        \helper\Validation {
-        \helper\Helper_functions::encrypt_data insteadof \helper\Validation;
-        \helper\Helper_functions::handle_errors insteadof \helper\Validation;
-        \helper\Helper_functions::message_success insteadof \helper\Validation;
-    }
-
     public function __construct() {
         parent::__construct();
     }
@@ -30,10 +23,9 @@ class Books_model extends \core\Database {
      */
 
     protected function create_book($book_data) {
-            $sql = "INSERT INTO books(isbn, name, year, description, images) VALUES(:isbn, :name, :year, :description, :images)";
-            $stmt = $this->db->prepare($sql);
-            $stmt->execute($book_data);
-
+        $sql = "INSERT INTO books(isbn, name, year, description, images) VALUES(:isbn, :name, :year, :description, :images)";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute($book_data);
     }
 
     /*
@@ -42,9 +34,12 @@ class Books_model extends \core\Database {
      */
 
     protected function get_all_books() {
-        $sql = "SELECT * FROM books";
+        $sql = "SELECT * FROM books ORDER BY timestamp DESC";
         $stmt = $this->db->query($sql);
-        return $stmt->fetchAll();
+        $result = $stmt->fetchAll();
+        foreach ($result as $value) {
+            return $value;
+        }
     }
 
     /*
